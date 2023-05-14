@@ -1,12 +1,11 @@
+import UserInterface as UI
 import random
 import math
-def show_seperator():
-        print("=================================")
 
 def select_dialog(prompt,items):
     while(True):
         index=1
-        print(prompt)
+        UI.DisplayTitle(prompt)
         for item in items:
             print(index,"-",item.name)
             index+=1
@@ -21,52 +20,45 @@ def select_dialog(prompt,items):
 
 def roll_dice(prompt,sides):
     result = random.randrange(1,sides)
-    print(prompt,": Rolling ", sides, " sided dice.....","Rolled a ", result)
+    #print(prompt,": Rolling ", sides, " sided dice.....","Rolled a ", result)
     return result
 
-class goblin(object):
-    pass
-
-class skeleton(object):
-    pass
-
-class human(object):
-    pass
-
 class item(object):
-    def __init__(self):
+    def __init__(self,name):
         pass
 
-class weapon(item):
-    def __init__(self,name,damage,stamina):
+class Weapon(item):
+    def __init__(self,name,damage):
+        super().__init__(name)
         self.name=name
         self.damage=damage
-        self.stamina=stamina
 
-class armour(item):
+class Armour(item):
     def __init__(self,name,resistance,location):
         self.name=name
         self.resistance=resistance
         self.location=location
 
-class character(object):
-    def __init__(self,name,type,health,damage):
+class Character(object):
+    def __init__(self,name,type,health):
         
         self.equipped_armour={
-            'head': armour("Nothing",0,"head"),
-            'torso': armour("Nothing",0,"torso"),
-            'left arm': armour("Nothing",0,"left arm"),
-            'right arm': armour("Nothing",0,"right arm"),
-            'left leg': armour("Nothing",0,"left leg"),
-            'right leg': armour("Nothing",0,"right leg")}
+            'head': Armour("Nothing",0,"head"),
+            'torso': Armour("Nothing",0,"torso"),
+            'left arm': Armour("Nothing",0,"left arm"),
+            'right arm': Armour("Nothing",0,"right arm"),
+            'left leg': Armour("Nothing",0,"left leg"),
+            'right leg': Armour("Nothing",0,"right leg")}
         self.name=name
         self.type=type
         self.health=health
+        self.max_health=health
         self.inventory=[]
-        self.fists=weapon("fists",damage,5)
+        self.fists=Weapon("Nothing",0)
         self.equipped_weapon=self.fists
     def stats(self):
-        return self.name + ": Type="+ self.type + ", ❤️  "+str(self.health)+", ⚔  "+str(self.equipped_weapon.damage)+ ", ⛨  "+str(self.get_total_resistance())
+        UI.DisplayStats(self.name,self.type, self.health,self.max_health,self.equipped_weapon.damage,self.get_total_resistance())
+
     def get_inventory_weapons(self):
         result=[]
         for item in self.inventory:
@@ -81,12 +73,12 @@ class character(object):
         return result
 
     def equip(self,item):
-        if isinstance(item,weapon):
+        if isinstance(item,Weapon):
             self.equipped_weapon=item
-            print(self.name, " has equiped weapon: ", item.name)
+            #print(self.name, " has equiped weapon: ", item.name)
         elif isinstance(item,armour):
             self.equipped_armour[item.location]=item    
-            print(self.name, " has equiped armour: ", item.name, " on ",item.location)
+            #print(self.name, " has equiped armour: ", item.name, " on ",item.location)
 
     def give(self,item):
         print(self.name," has been given: ",item.name)
@@ -96,57 +88,26 @@ class character(object):
         self.give(item)
         self.equip(item)
 
-
-    def equip_weapon_dialog(self):
-        self.equip(select_dialog("Equip item:", self.get_inventory_weapons()))
-
-    def equip_armour_dialog(self):
-        self.equip(item=select_dialog("Equip item:", self.get_inventory_armour()))
-
-    def show_outfit(self):
-        show_seperator()
-        print("Outfit:")
-        show_seperator()
-        for location in self.equipped_armour.keys():
-            print(self.equipped_armour[location].name," on ",location)
-        show_seperator()
-    
-    def show_weapon(self):
-        show_seperator()
-        print("Weapon:")
-        show_seperator()
-        print(self.equipped_weapon.name," is selected")
-        show_seperator()
-
     def show_equiped(self):
-        self.show_outfit()
-        self.show_weapon()
-
-    def equip_outfit(self):
-        while True:
-            self.show_outfit()
-            response = input("do you want to equip armour?(y/n) ")
-            if response == 'y':
-                self.equip_armour_dialog()
-            else:
-                return
+        UI.DisplayTitle("Equiped items")
+        for location in self.equipped_armour.keys():
+            print(f"{location:10}:",self.equipped_armour[location].name)
+        location="Weapon"
+        print(f"{location:10}:",self.equipped_weapon.name)
 
     def equip_dialog(self):
         while True:
-            self.show_equiped()
-            response = input("do you want to equip an item?(y/n) ")
+            response = input("Do you want to equip an item?(y/n) ")
             if response == 'y':
                 self.equip(select_dialog("Equip item",self.inventory))
+                self.show_equiped()
             else:
                 return
 
     def show_item_list(self,title,list):
-        show_seperator()
-        print(title)
-        show_seperator()
+        UI.DisplayTitle(title)
         for item in list:
             print(item.name)
-        show_seperator()
 
     def show_inventory(self):
         self.show_item_list('inventory: ',self.inventory)
@@ -164,18 +125,19 @@ class character(object):
         return resistance
         
     def attack(self,target):
-        print(self.name," attacked ",target.name," with ", self.equipped_weapon.name)
+        #print(self.name," attacked ",target.name," with ", self.equipped_weapon.name)
         sides=6
         attack_damage = int((self.equipped_weapon.damage*roll_dice("\tAttacking",sides))/sides)
-        print("\t",self.name," Raw Attack Damage =", attack_damage)
+        #print("\t",self.name," Raw Attack Damage =", attack_damage)
         resistance=target.get_total_resistance()
-        print("\t",target.name," Resistance =", resistance)
+        #print("\t",target.name," Resistance =", resistance)
         armoured_attack_damage=attack_damage-resistance
         if armoured_attack_damage<0:
             armoured_attack_damage=0
-        print("\t",target.name, " received armoured Attack Damage =", armoured_attack_damage)            
+        #print("\t",target.name, " received armoured Attack Damage =", armoured_attack_damage)            
         target.health-=armoured_attack_damage
-        print("\t",target.name," health is at ", target.health)
+        #print("\t",target.name," health is at ", target.health)
+        print(f"{self.name:10} Attacked {target.name:10} | Inflicted Damage : {armoured_attack_damage:3} ")
 
     def is_dead(self):
         if self.health<=0:
@@ -183,40 +145,79 @@ class character(object):
         return False
 
     def fight(self,enemies):
-        print("A fight has started:")
-        show_seperator()
+        UI.DisplayTitle("A fight has started")
         round=1
         while(True):
-            show_seperator()
-            print("Round ",round)
-            show_seperator()
+            UI.DisplayTitle(f"Round {round}")
             round+=1
-            print(player.stats())
+            self.stats()
             #player attacks
             live_enemies=[]
             for enemy in enemies:
                 if not enemy.is_dead():
-                    print(enemy.stats())
+                    enemy.stats()
                     live_enemies.append(enemy)
             if len(live_enemies)==0:
                 print("you won")
                 return True
-            player.equip_dialog()
+            self.equip_dialog()
             target=select_dialog("Who will you attack?",live_enemies)
             self.attack(target)
             #then each enemy attacks
             for enemy in live_enemies:
-                enemy.attack(player)
+                enemy.attack(self)
                 if self.is_dead():
                     print("you died")
                     return False
 
-player = character('player','human',1000, 100)
-weapon('sword',random.randrange(15,25),5)
-enemies = []
+class Hero(Character):
+    def __init__(self,name):
+        super().__init__(name,"Human", 100)
+        self.give_and_equip(Weapon("Stick",10))
 
-enemies.append(character('spider','spider', random.randrange(40,50),random.randrange(5,10)))
+class Goblin(Character):
+    def __init__(self,name):
+        super().__init__(name,"Goblin", 100)
+        self.give_and_equip(Weapon("Club",30))
 
-player.give(item)
-fight()
+class Human(Character):
+    def __init__(self,name):
+        super().__init__(name,"Human", 100)
+        self.give_and_equip(Weapon("Level 1 Wooden Sword",10))
 
+class Skeleton(Character):
+    def __init__(self,name):
+        super().__init__(name,"Skeleton", 100)
+        self.give_and_equip(Weapon("Level 1 Wooden Bow",20))
+class Spider(Character):
+    def __init__(self,name):
+        super().__init__(name,"Spider", 100)
+        self.give_and_equip(Weapon("Fangs",20))
+
+class Dragon(Character):
+    def __init__(self,name):
+        super().__init__(name,"Dragon", 100)
+        self.give_and_equip(Weapon("Fire Breath",100))
+
+Player = Hero('Grognak')
+
+def GoblinFight():
+    Player.fight([Goblin("Brzt")])
+
+def BanditFight():
+    Player.fight([Human("Bob"),Human("Gary"),Human("Fred")])
+
+def SkeletonFight():
+    Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George")])
+
+def SpiderFight():
+    Player.fight([Spider("Norman"),Spider("Harry"),Spider("George")])
+
+def DragonFight():
+    Player.fight([Dragon("Toothless")])
+
+def test():
+    Player.give_and_equip(Weapon("Sword",10))
+    GoblinFight()
+
+#test()
