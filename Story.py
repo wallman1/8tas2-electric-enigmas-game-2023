@@ -104,56 +104,11 @@ def CultistBoss():
   print("--- The Top of The Mountain ---")
 
 def Blacksmith():
+  Combat.Player.trade(Combat.blacksmith_bob)  
   print(''' You enter the blacksmith.
   Blacksmith: Ah I see you are in need of some armour and wepons! Here are a selection of the hightest quality in town!
   ''')
-  while True:
-    inputIwouldliketobuya = input("What sort of Sword Would you Like: (Wooden) / (Copper) / (Iron) / (Diamond) / (Mitheral)")
-  
-    if inputIwouldliketobuya == "Wooden":
-      print('''
-      Items:                  Gold:
-        Lvl 2 Wooden Sword      2
-        Lvl 3 Wooden Sword      4
-        Lvl 4 Wooden Sword      8
-      
-      ''')
-
-    if inputIwouldliketobuya == "Copper":
-      print('''
-      Items:                  Gold:
-        Lvl 1 Copper Sword      16
-        Lvl 2 Copper Sword      32
-        Lvl 3 Copper Sword      65
-        Lvl 4 Copper Sword      120
-      ''')
-
-    if inputIwouldliketobuya == "Iron":
-      print('''
-      Items:                  Gold:
-        Lvl 1 Iron Sword        250
-        Lvl 2 Iron Sword        300
-        Lvl 3 Iron Sword        325
-        Lvl 4 Iron Sword        350
-      ''')
-      
-    if inputIwouldliketobuya == "Diamond":
-      print('''
-      Items:                  Gold:
-        Lvl 1 Diamond Sword     400
-        Lvl 2 Diamond Sword     450
-        Lvl 3 Diamond Sword     500
-        Lvl 4 Diamond Sword     550
-    ''')
-
-    if inputIwouldliketobuya == "Mitheral":
-      print('''
-      Items:                  Gold:
-        Lvl 1 Mithril Sword     600
-        Lvl 2 Mithril Sword     675
-        Lvl 3 Mithril Sword     750
-        Lvl 4 Mithril Sword     800
-      ''')
+ 
 
 
 
