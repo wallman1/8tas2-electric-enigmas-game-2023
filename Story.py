@@ -5,9 +5,9 @@ def Start():
   Village()
 
 def Village():
-    UI.DisplayScene(
-        "The Village",
-        """You wake up to find your home burning in the sunlight and a loud ROAR in the distance. 
+   UI.DisplayScene(
+    "The Village",
+     """You wake up to find your home burning in the sunlight and a loud ROAR in the distance. 
 You run outside to see your whole village ravaged by fire and a large winged beast flying away. 
 You try to find your family but your efforts are worthless as you find out from the town mayor. 
 Your mother and sister were trapped under a burning pile of wood and were burnt alive. 
@@ -17,11 +17,11 @@ More buildings collapse as you stand there sobbing but action for your survival 
 You are forced to leave to save your life. 
 Rocks crumble around you. 
 As they fall to the ground, they reveal a doorway.""",
-        {
-            "Enter the mysterious doorway":DungeonSideEntrance,
-            "Leave into the forest":GoblinVillage
-        }
-    )
+    {
+        "Enter the mysterious doorway":DungeonSideEntrance,
+        "Leave into the forest":GoblinVillage
+    }
+  )
 
 def GoblinVillage():
   UI.DisplayScene(
@@ -69,6 +69,12 @@ def DungeonMainEntrance():
             "Travel to the Dungeon":DungeonMainEntrance,
         }
     )
+
+#def DungeonRoom1():
+  #UI.DisplayScene(
+   # "Dungeon Room",
+   # "As you enter this room you hear the clanking of bones as the skeletons on the ground reanimate themselves",
+ # )
 
 def DungeonSideEntrance():
     UI.DisplayScene(

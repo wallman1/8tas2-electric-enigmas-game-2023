@@ -62,13 +62,13 @@ class Character(object):
     def get_inventory_weapons(self):
         result=[]
         for item in self.inventory:
-            if isinstance(item, weapon):
+            if isinstance(item, Weapon):
                 result.append(item)
         return result
     def get_inventory_armour(self):
         result=[]
         for item in self.inventory:
-            if isinstance(item, armour):
+            if isinstance(item, Armour):
                 result.append(item)
         return result
 
@@ -76,7 +76,7 @@ class Character(object):
         if isinstance(item,Weapon):
             self.equipped_weapon=item
             #print(self.name, " has equiped weapon: ", item.name)
-        elif isinstance(item,armour):
+        elif isinstance(item,Armour):
             self.equipped_armour[item.location]=item    
             #print(self.name, " has equiped armour: ", item.name, " on ",item.location)
 
@@ -173,17 +173,21 @@ class Character(object):
 class Hero(Character):
     def __init__(self,name):
         super().__init__(name,"Human", 100)
-        self.give_and_equip(Weapon("Stick",10))
+        self.give_and_equip(Weapon("Stick",random.randrange(5,15)))
+        self.give_and_equip(Armour("leather chestplate",2 ,'torso'))
+        self.give_and_equip(Armour("leather helmet",1 ,'head'))
+        self.give_and_equip(Armour("leather left leg",1 ,'left leg'))
+        self.give_and_equip(Armour("leather right leg",1 ,'right leg'))
 
 class Goblin(Character):
     def __init__(self,name):
-        super().__init__(name,"Goblin", 100)
-        self.give_and_equip(Weapon("Club",30))
+        super().__init__(name,"Goblin", random.randrange(40,50))
+        self.give_and_equip(Weapon("Club",random.randrange(5,10)))
 
 class Human(Character):
     def __init__(self,name):
-        super().__init__(name,"Human", 100)
-        self.give_and_equip(Weapon("Level 1 Wooden Sword",10))
+        super().__init__(name,"Human", random.randrange(50,55))
+        self.give_and_equip(Weapon("Level 1 Wooden Sword",random.randrange(5,10)))
 
 class Skeleton(Character):
     def __init__(self,name):
@@ -217,7 +221,7 @@ def DragonFight():
     Player.fight([Dragon("Toothless")])
 
 def test():
-    Player.give_and_equip(Weapon("Sword",10))
-    GoblinFight()
+    Player.give_and_equip(Weapon("Sword",random.randrange(10,15)))
+    BanditFight()
 
 #test()

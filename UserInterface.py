@@ -58,7 +58,7 @@ def DisplayStats(name,type, health,max_health,damage,resistance):
     bar_count=int(health*10/max_health)
     bars="█"*bar_count
     dashes="-"*(10-bar_count)
-    print(f"{name:10}|{type:10}|❤️  [\033[31m{bars}█\033[0m{dashes}]({health:3}/{max_health:3})|⚔ {damage:3} |⛨  {resistance:3}")
+    print(f"{name:10}|{type:10}|❤️  [\033[31m{bars}█\033[0m{dashes}]({health:3}/{max_health:3})|🗡️ {damage:3} |🛡️  {resistance:3}")
 
 
 
