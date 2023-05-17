@@ -46,12 +46,20 @@ def SelectAction(actions):
             print("Stop being an idiot!!!")
             exit()
 
-def DisplayScene(title,description,actions):
-    DisplaySeparator()
+def DisplayDialog(title,description):
     DisplayTitle(title)
-    DisplaySeparator()
     print(description)
+
+def DisplayScene(title,description,actions):
+    DisplayDialog(title,description)
     selection=SelectAction(actions)
+
+def DisplaySceneWithEvent(title,pre_description,event,post_description,actions):
+    DisplayDialog(title,pre_description)
+    event()
+    DisplayDialog(title,post_description)
+    selection=SelectAction(actions)
+
 
 def DisplayStats(name,type, health,max_health,damage,resistance):
     PlayerHealth=health

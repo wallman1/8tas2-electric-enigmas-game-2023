@@ -97,7 +97,7 @@ class Character(object):
 
     def unequip(self,item):
         for location in self.equipped.keys():
-            if item==self.equipped[location]
+            if item==self.equipped[location]:
                 if isinstance(item,Weapon):
                     self.equipped[location]=Weapon("Nothing",0,0)
                 elif isinstance(item,Armour):
@@ -116,7 +116,7 @@ class Character(object):
         gold.value+=source_item.value
 
     def give(self,item):
-        print(self.name," has been given: ",item.name)
+        #print(self.name," has been given: ",item.name)
         if isinstance(item,Gold):
             self.add_gold(item)
         else:
@@ -246,6 +246,11 @@ class Character(object):
                 if not enemy.is_dead():
                     enemy.stats()
                     live_enemies.append(enemy)
+
+            #todo: remove this 
+            #print("you won")
+            #return True
+
             if len(live_enemies)==0:
                 print("you won")
                 return True
@@ -256,8 +261,8 @@ class Character(object):
             for enemy in live_enemies:
                 enemy.attack(self)
                 if self.is_dead():
-                    print("you died")
-                    return False
+                    print("You died...... slow clap")
+                    exit(0)
 
 class Hero(Character):
     def __init__(self,name):
@@ -284,7 +289,36 @@ class Human(Character):
 class Merchant(Character):
     def __init__(self,name):
         super().__init__(name,"Merchant", random.randrange(50,55))
+        self.give(Healing("Lvl 1 Health Potion",5,10))
+        self.give(Healing("Lvl 2 Health Potion",15,20))
+        self.give(Healing("Lvl 3 Health Potion",25,30))
+        self.give(Healing("Lvl 4 Health Potion",40,50))
+        self.give(Healing("Lvl 5 Health Potion",70,100))
         self.give(Gold(100))
+
+class ElfBlacksmith(Merchant):
+    def __init__(self,name):
+        super().__init__(name)
+
+        self.give(Weapon("Lvl 1 Metal Sword",13, 20))
+        self.give(Weapon("Lvl 2 Metal Sword",16, 25))
+        self.give(Weapon("Lvl 3 Metal Sword",19, 30))
+
+        self.give(Weapon("Lvl 1 Diamond Sword",20, 35))
+        self.give(Weapon("Lvl 2 Diamond Sword",24, 40))
+        self.give(Weapon("Lvl 3 Diamond Sword",27, 45))
+
+        self.give(Weapon("Lvl 1 Mithril Sword",30, 50))
+        self.give(Weapon("Lvl 2 Mithril Sword",35, 55))
+        self.give(Weapon("Lvl 3 Mithril Sword",40, 60))
+        
+        self.give(Armour("leather chestplate",5,2 ,'Torso'))
+        self.give(Armour("leather helmet",2,1 ,'Torso'))
+        self.give(Armour("leather left arm",2,1 ,'Torso'))
+        self.give(Armour("leather right arm",2,1 ,'Torso'))
+        self.give(Armour("leather left leg",2,1 ,'Torso'))
+        self.give(Armour("leather right leg",2,1 ,'Torso'))
+        self.give(Gold(10))
 
 class Blacksmith(Merchant):
     def __init__(self,name):
@@ -302,6 +336,12 @@ class Blacksmith(Merchant):
         self.give(Weapon("Lvl 3 Diamond Sword",29, 45))
         
         self.give(Armour("leather chestplate",5,2 ,'Torso'))
+        self.give(Armour("leather helmet",2,1 ,'Torso'))
+        self.give(Armour("leather left arm",2,1 ,'Torso'))
+        self.give(Armour("leather right arm",2,1 ,'Torso'))
+        self.give(Armour("leather left leg",2,1 ,'Torso'))
+        self.give(Armour("leather right leg",2,1 ,'Torso'))
+        self.give(Gold(10))
         
 
 class Skeleton(Character):
@@ -330,23 +370,22 @@ def SkeletonFight():
 def SpiderFight():
     Player.fight([Spider("Norman"),Spider("Harry"),Spider("George")])
 
+def SpiderAndSkeletonFight():
+    Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George"),Spider("Norman"),Spider("Harry"),Spider("George")])
+
+def GoblinRoomFight():
+    Player.fight([Goblin("Klink"),Goblin("Kaaduk"),Goblin("Ebalk")])
+
+def LootRoom():
+    Player.give(Gold(150))
+    Player.give(Weapon("Lvl 3 Metal Sword",19,30))
+
 def DragonFight():
     Player.fight([Dragon("Toothless")])
 
-def test():
-    #Player.DisplayInventory()
-    Player.give_and_equip(Weapon("Sword",15,random.randrange(10,15)))
-    #Player.DisplayInventory()
-    Player.remove("Stick")
-    Player.give(Gold(100))
-
-    
-    Player.trade(blacksmith)
-
-    #Player.show_equiped()
-    BanditFight()
 
 Player = Hero('Grognak')
 blacksmith_bob=Blacksmith("Blacksmith Bob")
-
-#test()
+blacksmith_bog=ElfBlacksmith("Backsmith Bog")
+Merchant_Charlie=Merchant("Merchant Charlie")
+Merchant_Barlie=Merchant("Merchant Barlie")
