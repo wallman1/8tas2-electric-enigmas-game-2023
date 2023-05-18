@@ -126,7 +126,7 @@ def DungeonRoom4():
 The riddle reads:
 I am tall when I am young, and I am short when I am old. What am I?""",
     riddle1,
-    "<sarcasm>Wow, you solved the riddle</sarcasm>. Where to now genius?",
+    "<sarcasm\>Wow, you solved the riddle</sarcasm>. Where to now genius?",
     {
        'enter the room in front of you':DungeonRoom5,
        'enter the room to your left':DungeonRoom6,
@@ -206,7 +206,7 @@ def Cave():
         """You Enter The Cave and Encounter Lots of Enemies, It is going to be a Long Fight""",
         Combat.SpiderAndSkeletonFight,
         """That was intense. I am going to sit down for a minute while you decide what to do next......
-Some skeezy old dude wants me to go on a 'quest'.""",
+As you're resting you see an old man and he explains to you the dragon you fought was under the control of a cult in the mountains and so he gives you a map so you can take revenge for your family.""",
         {
            "do you accept the stranger's 'quest'":TheWalkup,
         }
@@ -240,10 +240,11 @@ As you wander around the village, you see a blacksmith, market and a Casino. Whe
   )
 
 def Market():
-  UI.DisplayScene(
+  UI.DisplaySceneWithEvent(
      "The Market",
      "As you enter the Bustling market you see a Merchant with items that particularly pique your intrest",
      Combat.Player.trade(Combat.Merchant_Barlie),
+     "You di business with the merchant",
      {
         "Blacksmith":Blacksmith,
         "Pasino":Casino,
@@ -253,7 +254,7 @@ def Market():
   )
 
 def Tavern():
-  UI.DisplayScene(
+  UI.DisplaySceneWithEvent(
      "The Tavern",
     """As you enter the tavern you see many people parting and having a good time but one person stands out, a man in the corner that is covered in a black cloak and is eminating an ominous aura
 When you approach the man he starts to tell you that the members of a cult up in the mountains were the people controlling the dragon and he gives you a map to where the cult lives""",
@@ -266,22 +267,50 @@ When you approach the man he starts to tell you that the members of a cult up in
 def TheWalkup():
   UI.DisplayScene(
         "The Walk Up",
-        '''You start to creep up the mountain awaiting the dragon’s master. The mountain is 
-            covered in cobwebs and caves cover it like a wedge of swiss cheese. You hear screeches 
-            and the cackles of mutated monkeys. You step on a twig and it snaps.''',
+        '''As you arrive at the base of the mountain, you start to realise the dangers of the mountain. ''',
         {
-            "CultistBoss":CultistBoss,
+            "Climb up":CultistBoss,
         }
     )
+  
+def WalkingUp():
+   UI.DisplaySceneWithEvent(
+      "Climbing Up",
+      """As you climb up the mountain, you see disgustedly mutated plants all around, As you turn a corner you see a pack of Mutated and very hostile animals""",
+      Combat.MutantAnimalFight,
+      "After you defeat the animals, you gain even more motivation to stop this cult and all their evil deeds",
+      {
+         "Enter the Cultist Temple":CultistTemple
+      }
+   )
+
+def CultistTemple():
+   UI.DisplaySceneWithEvent(
+      "The Temple",
+      """As you enter the temple you feel like an invisble spiderweb has covered your body
+      You step on a stick alerting the cultists as they are practicing a ritual""",
+      Combat.Cultistfight,
+      "After you defeat the cultist you see a pastor of their domented religion, start to glow with a red light",
+      {
+         "Fight the Pastor":CultistBoss
+      }
+   )
 
 def CultistBoss():
-  print("THE FINAL BOSSSSSSS!")
-  UI.DisplayScene(
-    """You rock up to the liar of the great and mighty Cultist BOSS! GET READY TO FIGHT""",
+  UI.DisplaySceneWithEvent(
+    "The Cultist Devotee",
+    "The pastor starts chanting a demonic chant that makes you shiver to the bone and hexagrams start forming all over its body",
+    Combat.CultistFinalBoss,
+    "You finally defeated the cult and stopped all their evil deeds",
     {
-      #Insert the Combat for Cultist Boss
+       "You win":VictoryScreen
     }
   )
+
+def VictoryScreen():
+  print("You Won")
+  exit
+
 
 def BlacksmithTrade():
     Combat.Player.trade(Combat.blacksmith_bob)
@@ -294,35 +323,44 @@ def Blacksmith():
       "You walk into the blacksmith to see incredible weapons and armours",
       {
         "Trade":BlacksmithTrade,
+        "Merchant":Merchant,
+        "Back to town":Engradoland
+      }
+  )
+ 
+def ElfBlacksmith():
+  while True: 
+
+    UI.DisplayScene(
+      "Blacksmith",
+      "You walk into the blacksmith to see incredible weapons and armours",
+      {
+        "Trade":ElfBlacksmithTrade,
         "Market":Market,
         "Pasino":Casino,
         "Tavern":Tavern,
         "Back to town":ElfVillage
       }
-  )
- 
-def ElfBlacksmith():
-   UI.DisplayScene(
-      "The blacksmith",
-      "As you walk into the forge you see an elf forging a new sword",
-      Combat.Player.trade(Combat.blacksmith_bog),
-      {
-         'go back to town':ElfVillage,
-         'go to the market':Market,
-         'go to tavern':Tavern,
-      }
    )
 
+def ElfBlacksmithTrade():
+   Combat.Player.trade(Combat.blacksmith_bog)
+
 def Merchant():
-  UI.DisplayScene(
-  "Merchant",
-  "The merchant says, well hello there, are you in need of any of my exotic goods?",
-  Combat.Player.trade(Combat.Merchant_Charlie),
-  {
-     "go back to town":Engradoland,
-     "go to blacksmith":Blacksmith
-  }
+  while True: 
+
+    UI.DisplayScene(
+      "Merchant",
+      "You see many exotic items aound the merchant's stall",
+      {
+        "Trade":MerchantTrade,
+        "Blacksmith":Blacksmith,
+        "Back to town":Engradoland
+      }
   )
+    
+def MerchantTrade():
+   Combat.Player.trade(Combat.Merchant_Charlie)
 
 
 
