@@ -252,6 +252,7 @@ class Character(object):
             #return True
 
             if len(live_enemies)==0:
+                self.heal(100)
                 print("you won")
                 return True
             self.equip_dialog()
@@ -268,23 +269,18 @@ class Hero(Character):
     def __init__(self,name):
         super().__init__(name,"Human", 100)
         self.give_and_equip(Weapon("Stick",0,random.randrange(5,15)))
-        self.give_and_equip(Armour("leather chestplate",5,2 ,'Torso'))
-        self.give_and_equip(Armour("leather helmet",5,1 ,'Head'))
-        self.give_and_equip(Armour("leather left leg",5,1 ,'Left Leg'))
-        self.give_and_equip(Armour("leather right leg",5,1 ,'Right Leg'))
-        self.give(Healing("lvl 1 Health potion",5, 10))
-        self.give(Gold(30))
+        self.give(Gold(10))
        
 
 class Goblin(Character):
     def __init__(self,name):
         super().__init__(name,"Goblin", random.randrange(40,50))
-        self.give_and_equip(Weapon("Club",2,random.randrange(5,10)))
+        self.give_and_equip(Weapon("Club",1,random.randrange(5,10)))
 
 class Human(Character):
     def __init__(self,name):
-        super().__init__(name,"Human", random.randrange(50,55))
-        self.give_and_equip(Weapon("Level 1 Wooden Sword",5,random.randrange(5,10)))
+        super().__init__(name,"Human", 25)
+        self.give_and_equip(Weapon("Level 1 Wooden Sword",2,5))
 
 class Merchant(Character):
     def __init__(self,name):
@@ -294,11 +290,26 @@ class Merchant(Character):
         self.give(Healing("Lvl 3 Health Potion",25,30))
         self.give(Healing("Lvl 4 Health Potion",40,50))
         self.give(Healing("Lvl 5 Health Potion",70,100))
+        self.give(Healing("Lvl 1 Health Potion",5,10))
+        self.give(Healing("Lvl 2 Health Potion",15,20))
+        self.give(Healing("Lvl 3 Health Potion",25,30))
+        self.give(Healing("Lvl 4 Health Potion",40,50))
+        self.give(Healing("Lvl 5 Health Potion",70,100))
+        self.give(Healing("Lvl 1 Health Potion",5,10))
+        self.give(Healing("Lvl 2 Health Potion",15,20))
+        self.give(Healing("Lvl 3 Health Potion",25,30))
+        self.give(Healing("Lvl 4 Health Potion",40,50))
+        self.give(Healing("Lvl 5 Health Potion",70,100))
+        self.give(Healing("Lvl 1 Health Potion",5,10))
+        self.give(Healing("Lvl 2 Health Potion",15,20))
+        self.give(Healing("Lvl 3 Health Potion",25,30))
+        self.give(Healing("Lvl 4 Health Potion",40,50))
+        self.give(Healing("Lvl 5 Health Potion",70,100))
         self.give(Gold(100))
 
-class ElfBlacksmith(Merchant):
+class ElfBlacksmith(Character):
     def __init__(self,name):
-        super().__init__(name)
+        super().__init__(name, "Elf Blacksmith",random.randrange(50,55))
 
         self.give(Weapon("Lvl 1 Metal Sword",13, 20))
         self.give(Weapon("Lvl 2 Metal Sword",16, 25))
@@ -312,17 +323,31 @@ class ElfBlacksmith(Merchant):
         self.give(Weapon("Lvl 2 Mithril Sword",35, 55))
         self.give(Weapon("Lvl 3 Mithril Sword",40, 60))
         
-        self.give(Armour("leather chestplate",5,2 ,'Torso'))
-        self.give(Armour("leather helmet",2,1 ,'Torso'))
-        self.give(Armour("leather left arm",2,1 ,'Torso'))
-        self.give(Armour("leather right arm",2,1 ,'Torso'))
-        self.give(Armour("leather left leg",2,1 ,'Torso'))
-        self.give(Armour("leather right leg",2,1 ,'Torso'))
-        self.give(Gold(10))
+        self.give(Armour("Metal chestplate",15,10 ,'Torso'))
+        self.give(Armour("Metal helmet",12,7 ,'Head'))
+        self.give(Armour("Metal left arm",10,5 ,'Left Arm'))
+        self.give(Armour("Metal right arm",10,5 ,'Right Arm'))
+        self.give(Armour("Metal left leg",10,5 ,'Left Leg'))
+        self.give(Armour("Metal right leg",10,5 ,'Right Leg'))
 
-class Blacksmith(Merchant):
+        self.give(Armour("Diamond chestplate",25,20 ,'Torso'))
+        self.give(Armour("Diamond helmet",20,17 ,'Head'))
+        self.give(Armour("Diamond left arm",18,15 ,'Left Arm'))
+        self.give(Armour("Diamond right arm",18,15 ,'Right Arm'))
+        self.give(Armour("Diamond left leg",18,15 ,'Left Leg'))
+        self.give(Armour("Diamond right leg",18,15 ,'Right Leg'))
+
+        self.give(Armour("Mithril chestplate",50,40 ,'Torso'))
+        self.give(Armour("Mithril helmet",40,30 ,'Head'))
+        self.give(Armour("Mithril left arm",25,25 ,'Left Arm'))
+        self.give(Armour("Mithril right arm",25,25 ,'Right Arm'))
+        self.give(Armour("Mithril left leg",25,25 ,'Left Leg'))
+        self.give(Armour("Mithril right leg",25,25 ,'Right Leg'))
+        self.give(Gold(100))
+
+class Blacksmith(Character):
     def __init__(self,name):
-        super().__init__(name)
+        super().__init__(name,"Blacksmith",random.randrange(50,55))
         self.give(Weapon("Lvl 1 Wooden Sword",3, 5))
         self.give(Weapon("Lvl 2 Wooden Sword",6, 10))
         self.give(Weapon("Lvl 3 Wooden Sword",9, 15))
@@ -336,52 +361,118 @@ class Blacksmith(Merchant):
         self.give(Weapon("Lvl 3 Diamond Sword",29, 45))
         
         self.give(Armour("leather chestplate",5,2 ,'Torso'))
-        self.give(Armour("leather helmet",2,1 ,'Torso'))
-        self.give(Armour("leather left arm",2,1 ,'Torso'))
-        self.give(Armour("leather right arm",2,1 ,'Torso'))
-        self.give(Armour("leather left leg",2,1 ,'Torso'))
-        self.give(Armour("leather right leg",2,1 ,'Torso'))
-        self.give(Gold(10))
+        self.give(Armour("leather helmet",2,1 ,'Head'))
+        self.give(Armour("leather left arm",2,1 ,'Left Arm'))
+        self.give(Armour("leather right arm",2,1 ,'Right Arm'))
+        self.give(Armour("leather left leg",2,1 ,'Left Leg'))
+        self.give(Armour("leather right leg",2,1 ,'Right Leg'))
+
+        self.give(Armour("Metal chestplate",15,10 ,'Torso'))
+        self.give(Armour("Metal helmet",12,7 ,'Head'))
+        self.give(Armour("Metal left arm",10,5 ,'Left Arm'))
+        self.give(Armour("Metal right arm",10,5 ,'Right Arm'))
+        self.give(Armour("Metal left leg",10,5 ,'Left Leg'))
+        self.give(Armour("Metal right leg",10,5 ,'Right Leg'))
+        self.give(Gold(100))
         
 
 class Skeleton(Character):
     def __init__(self,name):
-        super().__init__(name,"Skeleton", 100)
-        self.give_and_equip(Weapon("Level 1 Wooden Bow",5,20))
+        super().__init__(name,"Skeleton", random.randrange(40,60))
+        self.give_and_equip(Weapon("Level 1 Wooden Bow",5,random.randrange(17,27)))
 class Spider(Character):
     def __init__(self,name):
-        super().__init__(name,"Spider", 100)
-        self.give_and_equip(Weapon("Fangs",0,20))
+        super().__init__(name,"Spider", random.randrange(40,60))
+        self.give_and_equip(Weapon("Fangs",0,random.randrange(15,27)))
 
 class Dragon(Character):
     def __init__(self,name):
         super().__init__(name,"Dragon", 100)
-        self.give_and_equip(Weapon("Fire Breath",0,100))
+        self.give_and_equip(Weapon("Fire Breath",0,60))
+
+class MutantAnimal(Character):
+    def __init__(self,name):
+        super().__init__(name,"MutantAnimal",random.randrange(40,60))
+        self.give_and_equip(Weapon("Bite",0,random.randrange(10,20)))
+
+class Cultist(Character):
+    def __init__(self,name):
+        super().__init__(name,"Cultist",random.randrange(50,70))
+        self.give_and_equip(Weapon("Cult Hex",0,random.randrange(40,60)))
+
+class CultistBoss(Character):
+    def __init__(self, name):
+        super().__init__(name, "Cultist", 150)
+        self.give_and_equip(Weapon("Magic Hands",0,100))
 
 def GoblinFight():
     Player.fight([Goblin("Brzt")])
+    Player.give(Weapon("Club",1,random.randrange(5,10)))
+    Player.give(Gold(5))
 
 def BanditFight():
     Player.fight([Human("Bob"),Human("Gary"),Human("Fred")])
+    Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
+    Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
+    Player.give(Weapon("Level 1 Wooden Sword",2,random.randrange(5,10)))
+    Player.give(Gold(10))
 
 def SkeletonFight():
     Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George")])
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Gold(15))
 
 def SpiderFight():
-    Player.fight([Spider("Norman"),Spider("Harry"),Spider("George")])
+    Player.fight([Spider("Spider"),Spider("Spider"),Spider("Spider")])
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
+    Player.give(Gold(15))
 
 def SpiderAndSkeletonFight():
-    Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George"),Spider("Norman"),Spider("Harry"),Spider("George")])
+    Player.fight([Skeleton("Norman"),Skeleton("Harry"),Skeleton("George"),Spider("Spider"),Spider("Spider"),Spider("Spider")])
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
+    Player.give(Healing("Lvl 1 Health Potion",5,10))
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Weapon("Level 1 Wooden Bow",5,random.randrange(15,25)))
+    Player.give(Gold(30))
 
 def GoblinRoomFight():
     Player.fight([Goblin("Klink"),Goblin("Kaaduk"),Goblin("Ebalk")])
+    Player.give(Weapon("Club",1,random.randrange(5,10)))
+    Player.give(Weapon("Club",1,random.randrange(5,10)))
+    Player.give(Weapon("Club",1,random.randrange(5,10)))
+    Player.give(Gold(25))
 
 def LootRoom():
-    Player.give(Gold(150))
+    Player.give(Gold(50))
     Player.give(Weapon("Lvl 3 Metal Sword",19,30))
 
 def DragonFight():
     Player.fight([Dragon("Toothless")])
+    Player.give(Weapon("Lvl 2 Diamond Sword",26,40))
+    Player.give(Healing("Lvl 3 Health Potion",25,30))
+    Player.give(Healing("Lvl 4 Health Potion",40,50))
+    Player.give(Healing("Lvl 3 Health Potion",25,30))
+    Player.give(Healing("Lvl 4 Health Potion",40,50))
+    Player.give(Gold(100))
+
+def MutantAnimalFight():
+    Player.fight([MutantAnimal("Mutated Animal"),MutantAnimal("Mutated Animal"),MutantAnimal("Mutated Animal"),MutantAnimal("Mutated Animal"),MutantAnimal("Mutated Animal")])
+    Player.give(Gold(15))
+
+def Cultistfight():
+    Player.fight([Cultist("Perfaren"),Cultist("Tratoris"),Cultist("Ianxalim")])
+    Player.give(Healing("Lvl 2 Health Potion",15,20))
+    Player.give(Healing("Lvl 2 Health Potion",15,20))
+    Player.give(Healing("Lvl 3 Health Potion",25,30))
+    Player.give(Weapon("Lvl 1 Mithril Sword",30, 50))
+
+
+def CultistFinalBoss():
+    Player.fight([CultistBoss("Scolrang")])
 
 
 Player = Hero('Grognak')
