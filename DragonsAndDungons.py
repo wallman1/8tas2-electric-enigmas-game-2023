@@ -4,8 +4,4 @@ import Definitions as Definitions
 #import Definitions as Def
 
 UI.DisplayTitleScreen()
-
-#print("Please Login To continue") 
-#Def.login()
-
 Story.Start()
